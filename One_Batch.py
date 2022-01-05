@@ -16,7 +16,7 @@ class One_Batch():
         self.shape = shape
         self.dataset_dir = dataset_dir
         self.kernel_size = int(int(random.randint(1,int(constants.max_g_kernel/2)))*2+1)
-        a = 0
+
 
     def find_batch_dir(self):
         i = 0
