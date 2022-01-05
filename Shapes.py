@@ -1,10 +1,13 @@
 import colorsys
+import glob
 import math
 import random
+
+import cv2
 import numpy as np
 import constants
 
-
+"""
 class Shapes():
     def __init__(self):
         self.shape = random.sample(constants.shapes,1)[0]
@@ -32,7 +35,17 @@ class Shapes():
 
         elif(self.shape == "circle"):
             pass
+"""
 
+class Shapes():
+    def __init__(self):
+
+        self.background = cv2.resize(cv2.imread(random.sample(glob.glob(constants.back_ground_address),1)[0]),(640,480))
+        self.size = (random.random() + 0.1) * 2
+
+        icon = cv2.imread(random.sample(glob.glob(constants.icons_address),1)[0])
+        icon = cv2.resize(icon,(50,50))
+        self.icon = cv2.resize(icon, (int(icon.shape[0]*self.size), int(icon.shape[1]*self.size)))
 
 
 
