@@ -42,10 +42,21 @@ class Shapes():
 
         self.background = cv2.resize(cv2.imread(random.sample(glob.glob(constants.back_ground_address),1)[0]),(640,480))
         self.size = (random.random() + 0.1) * 2
+        icon = cv2.imread(random.sample(glob.glob(constants.icons_address), 1)[0])
+        icon = cv2.resize(icon, (50, 50))
+        self.icon = cv2.resize(icon, (int(icon.shape[0] * self.size), int(icon.shape[1] * self.size)))
+        self.icons = [Icons() for _ in range(constants.number_of_icons)]
 
-        icon = cv2.imread(random.sample(glob.glob(constants.icons_address),1)[0])
-        icon = cv2.resize(icon,(50,50))
-        self.icon = cv2.resize(icon, (int(icon.shape[0]*self.size), int(icon.shape[1]*self.size)))
 
 
+class Icons():
+    def __init__(self):
 
+        y = random.randint(int(constants.Frame_Width / 10), int(9 * constants.Frame_Width / 10))
+        x = random.randint(int(constants.Frame_Hight / 10), int(9 * constants.Frame_Hight / 10))
+        [(x_, y_)] = random.sample(constants.dirs, 1)
+
+        self.x = x
+        self.y = y
+        self.x_ = x_
+        self.y_ = y_

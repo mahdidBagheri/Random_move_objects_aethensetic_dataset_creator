@@ -5,6 +5,7 @@ import cv2
 import math
 
 import constants
+from Shapes import Shapes
 from constants import *
 import numpy as np
 
@@ -25,44 +26,39 @@ class One_Batch():
         os.mkdir(self.dataset_dir + f"/batch{i}")
         return self.dataset_dir + f"/batch{i}"
 
-    def create_frame(self):
-        #back_ground = np.zeros(shape)
-        back_ground = self.shape.background
-        return back_ground
-
     def create(self):
         self.batch_dir = self.find_batch_dir()
 
-        dirs = [(-1*self.speed,-1*self.speed), (-1*self.speed,0), (0,-1*self.speed), (1*self.speed,1*self.speed), (1*self.speed,0), (0,1*self.speed)]
-        y = random.randint(int(constants.Frame_Width/6),int(5*constants.Frame_Width/6))
-        x = random.randint(int(constants.Frame_Hight/6),int(5*constants.Frame_Hight/6))
-        [(x_, y_)] = random.sample(dirs, 1)
+
 
         for i in range(self.batch_size):
-            change_dir = random.randint(0,50)
-            if(change_dir >= 49):
-                [(x_, y_)] = random.sample(dirs, 1)
-                pass
-
-            if(x + x_ > constants.Frame_Hight - (self.shape.icon.shape[1]/10) ):
-                x_ = -abs(x_)
-
-            elif(x+x_ < 0):
-                x_ = abs(x_)
+            img = self.shape.background
+            background = self.shape.background.copy()
+            for icon in self.shape.icons:
+                change_dir = random.randint(0,100)
+                if(change_dir >= 99):
+                    [(icon.x_, icon.y_)] = random.sample(constants.dirs, 1)
 
 
-            if(y + y_ > constants.Frame_Width - (self.shape.icon.shape[0]/10)):
-                y_ = -abs(y_)
+                if(icon.x + icon.x_ > constants.Frame_Hight - (self.shape.icon.shape[1]/10) ):
+                    icon.x_ = -abs(icon.x_)
 
-            elif(y+y_ < 40):
-                y_ = abs(y_)
+                elif(icon.x+icon.x_ < 0):
+                    icon.x_ = abs(icon.x_)
 
-            x = x + x_
-            y = y + y_
 
-            back_ground = self.create_frame()
-            icon = self.shape.icon
-            img = self.addOverLay(back_ground, icon, x, y)
+                if(icon.y + icon.y_ > constants.Frame_Width - (self.shape.icon.shape[0]/10)):
+                    icon.y_ = -abs(icon.y_)
+
+                elif(icon.y+icon.y_ < 40):
+                    icon.y_ = abs(icon.y_)
+
+                icon.x = icon.x + icon.x_
+                icon.y = icon.y + icon.y_
+
+
+
+                img = self.addOverLay(background, self.shape.icon , icon.x, icon.y)
             """
             if(self.shape.shape != "circle"):
                 img = cv2.drawContours(back_ground,[self.shape.get_pts(x,y)], 0, self.shape.color  , -1)
@@ -116,7 +112,8 @@ class One_Batch():
         return img
 
     def addOverLay(self, back_ground, icon, x, y):
-        back_ground_copy = back_ground.copy()
+        #back_ground_copy = back_ground.copy()
+        back_ground_copy = back_ground
         for i in range(0, icon.shape[0]):
             for j in range(0, icon.shape[1]):
                 if((icon[i,j] != [255, 255, 255]).all()):
