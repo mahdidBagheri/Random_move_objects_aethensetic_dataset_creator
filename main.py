@@ -15,9 +15,10 @@ class Create_Dataset():
     def create(self):
         self.dataset_dir = self.find_dataset_dir()
         for i in range(self.datasets_size):
-            print(f"creating batch{i}")
+
             # select shape
             shape = Shapes()
+            print(f"creating batch{i}, background:{shape.background_name[-8:-4]}, icon:{shape.icon_name[-8:-4]}")
             one_batch = One_Batch(self.batch_size, shape, self.dataset_dir)
             one_batch.create()
 

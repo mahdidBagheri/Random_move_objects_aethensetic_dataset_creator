@@ -116,7 +116,7 @@ class One_Batch():
         back_ground_copy = back_ground
         for i in range(0, icon.shape[0]):
             for j in range(0, icon.shape[1]):
-                if((icon[i,j] != [255, 255, 255]).all()):
+                if((icon[i,j] < [253, 253, 253]).any() and (icon[i,j] > [3, 3, 3]).any() ):
                     if(x+i < back_ground_copy.shape[0] and y+j < back_ground_copy.shape[1]):
                         back_ground_copy[x+i,y+j, :] = icon[i,j, :]
         return back_ground_copy

@@ -39,12 +39,13 @@ class Shapes():
 
 class Shapes():
     def __init__(self):
-
-        self.background = cv2.resize(cv2.imread(random.sample(glob.glob(constants.back_ground_address),1)[0]),(640,480))
-        self.size = (random.random() + 0.1) * 2
-        icon = cv2.imread(random.sample(glob.glob(constants.icons_address), 1)[0])
+        self.background_name = random.sample(glob.glob(constants.back_ground_address),1)[0]
+        self.background = cv2.resize(cv2.imread(self.background_name),(640,480))
+        self.size = int(random.random() * (constants.max_size - constants.min_size) + constants.min_size)
+        self.icon_name = random.sample(glob.glob(constants.icons_address), 1)[0]
+        icon = cv2.imread(self.icon_name)
         icon = cv2.resize(icon, (50, 50))
-        self.icon = cv2.resize(icon, (int(icon.shape[0] * self.size), int(icon.shape[1] * self.size)))
+        self.icon = cv2.resize(icon, (self.size, self.size))
         self.icons = [Icons() for _ in range(constants.number_of_icons)]
 
 
